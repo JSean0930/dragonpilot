@@ -406,7 +406,7 @@ class LongitudinalPlanner:
       elif raw_clone_a < self.clone_a_ema:
         self.clone_a_ema = 0.15 * self.clone_a_ema + 0.85 * raw_clone_a
       else:
-        self.clone_a_ema = 0.7 * self.clone_a_ema + 0.3 * raw_clone_a
+        self.clone_a_ema = 0.3 * self.clone_a_ema + 0.7 * raw_clone_a
         
       final_a_target = (1.0 - w_clone) * base_a_target + w_clone * self.clone_a_ema
       self.smooth_coast_weight = 0.0
@@ -441,7 +441,7 @@ class LongitudinalPlanner:
           smoothed_a = final_a_target
         final_a_target = (1.0 - self.smooth_coast_weight) * final_a_target + self.smooth_coast_weight * smoothed_a
     
-    # [狀態五] 💨 前車消失 / 淨空快速補油
+    # [狀態四] 💨 前車消失 / 淨空快速補油
     elif not has_lead and base_a_target > 0.0 and (v_ego * CV.MS_TO_KPH < 60.0) and v_ego < v_cruise - 1.0:
       clear_boost = smooth_interp(v_ego, [0.0, 5.0, 15.0], [0.30, 0.20, 0.0])
       if base_a_target < clear_boost:

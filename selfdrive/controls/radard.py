@@ -250,7 +250,7 @@ def get_lead(v_ego: float, ready: bool, tracks: dict[int, Track], lead_msg: capn
         # 🌟 優化 3：速度相依的「加速度融合」 (Speed-Dependent Acceleration Fusion)
         # 低速時 (0-10m/s, 約 0-36km/h)：雷達加速度雜訊大，融入最多 60% 的視覺加速度 (平滑)。
         # 高速時 (>15m/s, 約 54km/h)：雷達都卜勒極準，100% 交還給雷達。
-        vision_a_weight = float(np.interp(v_ego, [0.0, 10.0, 15.0], [0.60, 0.20, 0.0]))
+        vision_a_weight = float(np.interp(v_ego, [0.0, 10.0, 15.0], [1.0, 0.6, 0.0]))
         fused_a = (1.0 - vision_a_weight) * radar_dict["aLeadK"] + vision_a_weight * vision_dict["aLeadK"]
         fused_dict["aLeadK"] = fused_a
 
